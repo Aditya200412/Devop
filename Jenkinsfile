@@ -1,47 +1,42 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-login')
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
-               git branch: 'main', url: 'https://github.com/Aditya200412/Devop.git'
-    }
+                echo 'Checking out code...'
+                git branch: 'main', url: 'https://github.com/Aditya200412/Devop.git'
             }
         }
 
         stage('Compile Java App') {
             steps {
-                bat 'javac demo.java'
+                echo 'Compiling Java application...'
+                sh 'javac Main.java'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t adityaih/demoapp .'
+                echo 'Building Docker image...'
+                sh 'docker build -t myjavaapp .'
             }
         }
 
         stage('Login to Docker Hub') {
             steps {
-                bat 'docker login -u %DOCKERHUB_CREDENTIALS_USR% -p %DOCKERHUB_CREDENTIALS_PSW%'
+                echo 'Logging into Docker Hub...'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
+                }
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                bat 'docker push adityaih/demoapp'
+                echo 'Pushing Docker image to Docker Hub...'
+                sh 'docker push myjavaapp'
             }
         }
-
-        
     }
-
-
-
-
-
-
+}
