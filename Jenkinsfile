@@ -23,22 +23,21 @@ pipeline {
             }
         }
 
-        stage('Login to Docker Hub') {
+         stage('Login to Docker Hub') {
             steps {
-                echo 'Logging into Docker Hub...'
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    bat 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
-                }
+                bat 'docker login -u %DOCKERHUB_CREDENTIALS_USR% -p %DOCKERHUB_CREDENTIALS_PSW%'
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                echo 'Pushing Docker image to Docker Hub...'
-                bat 'docker push myjavaapp'
+                bat 'docker push adityaih/demoapp'
             }
         }
+
+       
     }
 }
+
 
 
