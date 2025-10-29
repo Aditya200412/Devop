@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/Aditya200412/Demo.git'
+                git branch: 'master', url: 'https://github.com/Aditya200412/Devop.git'
             }
         }
 
@@ -36,11 +36,8 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
-            steps {
-                bat 'docker run -d -p 8080:8080 adityaih/demoapp'
-            }
-        }
+        
     }
 }
+
 
