@@ -12,14 +12,14 @@ pipeline {
         stage('Compile Java App') {
             steps {
                 echo 'Compiling Java application...'
-                sh 'javac demo.java'
+                bat 'javac demo.java'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t myjavaapp .'
+                bat 'docker build -t myjavaapp .'
             }
         }
 
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 echo 'Logging into Docker Hub...'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
+                    bat 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
                 }
             }
         }
@@ -35,9 +35,10 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 echo 'Pushing Docker image to Docker Hub...'
-                sh 'docker push myjavaapp'
+                bat 'docker push myjavaapp'
             }
         }
     }
 }
+
 
