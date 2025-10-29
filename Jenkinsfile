@@ -12,7 +12,7 @@ pipeline {
         stage('Compile Java App') {
             steps {
                 echo 'Compiling Java application...'
-                sh 'javac Main.java'
+                sh 'javac demo.java'
             }
         }
 
@@ -40,3 +40,4 @@ pipeline {
         }
     }
 }
+
